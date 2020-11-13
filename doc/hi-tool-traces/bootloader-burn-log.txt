@@ -1,0 +1,78 @@
+System startup
+
+Uncompress Ok!
+
+U-Boot 2020.01 (Sep 02 2020 - 17:34:02 +0800)hi3518ev300
+
+DRAM:  SPI Nor:  hifmc_ip_ver_check(54): Check Flash Memory Controller v100 ...hifmc_ip_ver_check(60):  Found
+hifmc_spi_nor_probe(2070): SPI Nor ID Table Version 1.0
+hifmc_spi_nor_probe(2095): SPI Nor(cs 0) ID: 0x20 0x70 0x18
+hifmc_init_print(2016): Block:64KB hifmc_init_print(2017): Chip:16MB hifmc_init_print(2018): Name:"XM25QH128A"
+hifmc100_spi_nor_probe(145): SPI Nor total size: 16MB
+NAND:  0 MiB
+Loading Environment from SPI Flash... OK
+In:    serial
+Out:   serial
+Err:   serial
+Net:   eth0
+Error: eth0 address not set.
+
+start download process.
+
+Boot started successfully!
+
+Send command:	getinfo version
+version: U-Boot 2020.01
+[EOT](OK)
+
+Send command:	getinfo bootmode
+spi
+[EOT](OK)
+
+Send command:	sf probe 0
+[EOT](OK)
+
+Send command:	getinfo spi
+Block:64KB Chip:16MB*1 
+ID:0x20 0x70 0x18 
+Name:"XM25QH128A"
+[EOT](OK)
+
+Send command:	sf probe 0
+[EOT](OK)
+
+Send command:	sf erase 0x0 0x100000
+
+Erasing at 0x10000 --   6% complete.
+Erasing at 0x20000 --  12% complete.
+Erasing at 0x30000 --  18% complete.
+Erasing at 0x40000 --  25% complete.
+Erasing at 0x50000 --  31% complete.
+Erasing at 0x60000 --  37% complete.
+Erasing at 0x70000 --  43% complete.
+Erasing at 0x80000 --  50% complete.
+Erasing at 0x90000 --  56% complete.
+Erasing at 0xa0000 --  62% complete.
+Erasing at 0xb0000 --  68% complete.
+Erasing at 0xc0000 --  75% complete.
+Erasing at 0xd0000 --  81% complete.
+Erasing at 0xe0000 --  87% complete.
+Erasing at 0xf0000 --  93% complete.
+Erasing at 0x100000 -- 100% complete.
+SF: 1048576 bytes @ 0x0 Erased: OK
+[EOT](OK)
+
+Send command:	sf write 0x41000000 0x0 0x40000
+device 0 offset 0x0, size 0x40000
+
+Writing at 0x10000 --  25% complete.
+Writing at 0x20000 --  50% complete.
+Writing at 0x30000 --  75% complete.
+Writing at 0x40000 -- 100% complete.
+SF: 262144 bytes @ 0x0 Written: OK
+[EOT](OK)
+Partition Burning completed!
+
+Send command:	reset
+reset success!
+Partition burnt completed!
