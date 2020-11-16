@@ -44,10 +44,10 @@ Invoke the `oh-flash` tool with the following arguments:
 
 ```
 oh-flash \
-    -board hi3518ev300
-    -bootloader u-boot-hi3518ev300.bin
-    -kernel OHOS_Image.bin
-    -rootfs rootfs.img
+    -board hi3518ev300 \
+    -bootloader u-boot-hi3518ev300.bin \
+    -kernel OHOS_Image.bin \
+    -rootfs rootfs.img \
     -userfs userfs.img
 ```
 The arguments describing the bootloader image, kernel image, root file system
