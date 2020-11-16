@@ -35,6 +35,8 @@ import (
 func run() error {
 	var boardType string
 	var assets openharmony.Assets
+	var debug bool
+	flag.BoolVar(&debug, "debug", false, "Show debugging messages")
 	flag.StringVar(&boardType, "board", "", "Type of the board to program")
 	flag.StringVar(&assets.BootLoaderPath, "bootloader", "", "Bootloader image to use")
 	flag.StringVar(&assets.KernelPath, "kernel", "", "Kernel image to use")
@@ -104,8 +106,7 @@ func run() error {
 		}
 	}()
 
-	// TODO: make this configurable.
-	if true {
+	if debug {
 		boardPort = ioextra.NewIOPreview(boardPort)
 		fmt.Printf("Serial port preview enabled, serial port data displayed as follows:\n")
 		fmt.Printf("  <<< incoming serial port data\n")
