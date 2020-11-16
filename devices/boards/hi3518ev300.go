@@ -106,7 +106,7 @@ func (board *Hi3518ev300) configureUBoot(uboot *ubootshell.UBootShell) error {
 		return err
 	}
 	// XXX: those should be related to the constants above
-	bootargs := fmt.Sprintf("console=ttyAMA0,115200n8 root=flash fstype=jffs2 rw rootaddr=5M rootsize=7M")
+	bootargs := fmt.Sprintf("console=ttyAMA0,115200n8 root=flash fstype=jffs2 rw rootaddr=7M rootsize=8M")
 	if err := uboot.SetEnv("bootargs", bootargs); err != nil {
 		return err
 	}
