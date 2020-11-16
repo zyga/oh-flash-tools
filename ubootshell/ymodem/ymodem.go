@@ -156,7 +156,7 @@ func (tr *Transfer) sendFileInfo(stream io.ReadWriter) error {
 		if err = sendBlock(stream, tr.blockKind, 0, infoBlock, 0); err != nil {
 			return err
 		}
-		// Did the bootloader acknowlege the request?
+		// Did the bootloader acknowledge the request?
 		cmd, err := readControlByte(stream)
 		if err != nil {
 			return err
