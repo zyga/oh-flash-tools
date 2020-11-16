@@ -8,7 +8,10 @@ The tool is in an early stages of development and assumes a specific
 environment. You need to have the Hi3518ev300 development kit. You also need a
 Bus Pirate which acts as a controllable power supply unit for the camera.
 
-## Setting up the Bus Pirate
+## Setting up the Bus Pirate (optional)
+
+This step is now optional.
+If you don't have a bus pirate, skip to the next section.
 
 Connect the Bus Pirate to a host computer. It should enumerate as an FTDI serial
 port using USB VID:PID of 0403:6001 and must be the only connected USB device
@@ -28,6 +31,10 @@ Assuming you've set up the Bus Pirate as instructed above you will only need to
 connect the second USB to serial adapter. Use the Prolific adapter that comes
 with the development kit. It should enumerate using USB VID:PID of 067b:2303 and
 again, must be the only connected USB device using that pair.
+
+If you did not set up a Bus Pirate, connect the power delivery header to the
+back of the Hi3518ev300 kit and plug the USB connector to a power supply or a
+laptop.
 
 ## Preparing the operating system
 

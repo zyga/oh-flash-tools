@@ -64,25 +64,28 @@ func run() error {
 		return err
 	}
 
+	var pirate *buspirate.BusPirate
 	fmt.Printf("Looking for bus pirate\n")
 	// TODO: make this configurable
 	piratePortName, err := buspirate.FindBusPirate(portInfos)
 	if err != nil {
-		return err
-	}
-	fmt.Printf("Found bus pirate serial port %s\n", piratePortName)
-	pirate, err := buspirate.OpenBusPirate(piratePortName)
-	if err != nil {
-		return err
-	}
-	defer func() {
-		if err := pirate.Close(); err != nil {
-			fmt.Printf("cannot close bus pirate serial port: %s", err)
+		fmt.Printf("%s\n", err)
+		fmt.Printf("Flashing process will not be unattended\n")
+	} else {
+		fmt.Printf("Found bus pirate serial port %s\n", piratePortName)
+		pirate, err = buspirate.OpenBusPirate(piratePortName)
+		if err != nil {
+			return err
 		}
-	}()
-	fmt.Printf("Entering PSU mode\n")
-	if err := pirate.EnterPSUMode(); err != nil {
-		return err
+		defer func() {
+			if err := pirate.Close(); err != nil {
+				fmt.Printf("cannot close bus pirate serial port: %s", err)
+			}
+		}()
+		fmt.Printf("Entering PSU mode\n")
+		if err := pirate.EnterPSUMode(); err != nil {
+			return err
+		}
 	}
 
 	fmt.Printf("Looking for %s board\n", boardType)
@@ -110,11 +113,15 @@ func run() error {
 	}
 	uboot := ubootshell.NewUBootShell(context.TODO(), boardPort)
 
-	if err := pirate.DisablePower(); err != nil {
-		return err
-	}
-	if err := pirate.EnablePower(); err != nil {
-		return err
+	if pirate != nil {
+		if err := pirate.DisablePower(); err != nil {
+			return err
+		}
+		if err := pirate.EnablePower(); err != nil {
+			return err
+		}
+	} else {
+		fmt.Printf("NOTE: power-cycle the board manually now\n")
 	}
 	if err := uboot.InterruptBoot(); err != nil {
 		return err
