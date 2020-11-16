@@ -85,12 +85,12 @@ func run() error {
 		return err
 	}
 
-	fmt.Printf("Looking for hi3518ev300 board\n")
+	fmt.Printf("Looking for %s board\n", boardType)
 	boardPortName, err := board.FindSerialPort(portInfos)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Found hi3518ev300 serial port %s\n", boardPortName)
+	fmt.Printf("Found %s serial port %s\n", boardType, boardPortName)
 	boardPort, err := board.OpenSerialPort(boardPortName)
 	if err != nil {
 		return err
