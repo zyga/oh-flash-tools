@@ -18,7 +18,9 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"io"
 	"os"
 
 	"go.bug.st/serial.v1/enumerator"
@@ -31,13 +33,31 @@ import (
 )
 
 func run() error {
-	// TODO: make this configurable and verify before loading.
-	assets := &openharmony.Assets{
-		BootLoaderPath: "u-boot-hi3518ev300.bin",
-		KernelPath:     "OHOS_Image.bin",
-		RootfsPath:     "rootfs.img",
-		UserfsPath:     "userfs.img",
+	var boardType string
+	var assets openharmony.Assets
+	flag.StringVar(&boardType, "board", "", "Type of the board to program")
+	flag.StringVar(&assets.BootLoaderPath, "bootloader", "", "Bootloader image to use")
+	flag.StringVar(&assets.KernelPath, "kernel", "", "Kernel image to use")
+	flag.StringVar(&assets.RootfsPath, "rootfs", "", "Root file system image to use")
+	flag.StringVar(&assets.UserfsPath, "userfs", "", "User file system image to use")
+	flag.Parse()
+
+	type flashableBoard interface {
+		FindSerialPort(portInfos []*enumerator.PortDetails) (string, error)
+		OpenSerialPort(portName string) (io.ReadWriteCloser, error)
+		FlashAssets(uboot *ubootshell.UBootShell, assets *openharmony.Assets) error
 	}
+	var board flashableBoard
+
+	switch boardType {
+	case "hi3518ev300":
+		board = &boards.Hi3518ev300{}
+	case "":
+		return fmt.Errorf("select board type with -board")
+	default:
+		return fmt.Errorf("unsupported board type: %q", boardType)
+	}
+	// TODO: verify assets before loading.
 
 	portInfos, err := enumerator.GetDetailedPortsList()
 	if err != nil {
@@ -65,8 +85,6 @@ func run() error {
 		return err
 	}
 
-	// TODO: make this configurable
-	board := &boards.Hi3518ev300{}
 	fmt.Printf("Looking for hi3518ev300 board\n")
 	boardPortName, err := board.FindSerialPort(portInfos)
 	if err != nil {
@@ -104,7 +122,7 @@ func run() error {
 	if err := uboot.ProbePrompt(); err != nil {
 		return err
 	}
-	return board.FlashAssets(uboot, assets)
+	return board.FlashAssets(uboot, &assets)
 }
 
 func main() {

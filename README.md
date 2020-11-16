@@ -40,13 +40,20 @@ you need to you can grab USB drivers for the two devices from:
 
 ## Flashing
 
-Put the following files in the current working directory and run the `oh-flash` tool.
+Invoke the `oh-flash` tool with the following arguments:
 
-1. `u-boot-hi3518ev300.bin`
-2. `OHOS_Image.bin`
-3. `rootfs.img`
-4. `userfs.img`
+```
+oh-flash \
+    -board hi3518ev300
+    -bootloader u-boot-hi3518ev300.bin
+    -kernel OHOS_Image.bin
+    -rootfs rootfs.img
+    -userfs userfs.img
+```
+The arguments describing the bootloader image, kernel image, root file system
+and user file can be individually left out, making the corresponding partition
+unchanged.
 
-You can obtain those binaries from the OHOS build tree, in the `out/` directory,
+You can obtain necessary binaries from the OHOS build tree, in the `out/` directory,
 except for the u-boot binary which is deeper in the tree. Use `find` to locate
 it.
